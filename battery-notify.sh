@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-export DISPLAY="$(w -h $USER | awk '$3 ~ /:[0-9.]*/{print $3}')"
-XAUTHORITY="$HOME/.Xauthority"
-
-SOUND_COMMAND="${SOUND_COMMAND:-paplay}"
+SOUND_COMMAND="${SOUND_COMMAND:-"/usr/bin/paplay"}"
 CRITICAL_LEVEL="${CRITICAL_LEVEL:-5}"
 CRITICAL_ICON="${CRITICAL_ICON:-"battery-empty"}"
 CRITICAL_SOUND="${CRITICAL_SOUND:-"/usr/share/sounds/purple/alert.wav"}"
@@ -11,9 +8,10 @@ LOW_LEVEL="${LOW_LEVEL:-10}"
 LOW_ICON="${LOW_ICON:-"battery-caution"}"
 LOW_SOUND="${LOW_SOUND:-""}"
 
-if [[ -r "$HOME/.dbus/Xdbus" ]]; then
-	source "$HOME/.dbus/Xdbus"
-fi
+userid=$(id -u)
+# Export curent user runtime for audio and visual notification
+XDG_RUNTIME_DIR="/run/user/$userid"
+export XDG_RUNTIME_DIR
 
 # Adaptation for laptops with two battery entries
 battery_level="$(acpi -b | awk 'NR==1' | grep -v "Charging" | grep -P -o '([0-9]+(?=%))')"
