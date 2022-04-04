@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 SOUND_COMMAND="${SOUND_COMMAND:-"/usr/bin/paplay"}"
 CRITICAL_LEVEL="${CRITICAL_LEVEL:-5}"
