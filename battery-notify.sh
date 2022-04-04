@@ -15,7 +15,8 @@ if [[ -r "$HOME/.dbus/Xdbus" ]]; then
 	source "$HOME/.dbus/Xdbus"
 fi
 
-battery_level="$(acpi -b | grep -v "Charging" | grep -P -o '([0-9]+(?=%))')"
+# Adaptation for laptops with two battery entries
+battery_level="$(acpi -b | awk 'NR==1' | grep -v "Charging" | grep -P -o '([0-9]+(?=%))')"
 
 if [[ -z "$battery_level" ]]; then
 	exit 0
